@@ -1,0 +1,1 @@
+INSERT INTO product (id, name, price, rating) values (1, 'iphone', 1200, 4);
