@@ -20,9 +20,11 @@ public class Review {
     @JoinColumn(name = "user_id")
     private User user;
 
+
     public void setComment(String comment) {
         this.comment = comment;
     }
+
 
 
 }

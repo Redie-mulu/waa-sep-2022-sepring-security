@@ -17,7 +17,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private double mat;
+//    private double mat;
     @OneToMany(mappedBy = "category")
 
     private List<Product> products;

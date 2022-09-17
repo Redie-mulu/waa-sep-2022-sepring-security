@@ -1,16 +1,20 @@
 package edu.miu.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Getter
+
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,28 +36,10 @@ public class User {
 
     private List<Review> reviews;
 
+   @JsonBackReference
+    @ManyToMany(fetch = FetchType.EAGER)
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+    private List<Role> roles;
 
-    public int getId() {
-        return id;
-    }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

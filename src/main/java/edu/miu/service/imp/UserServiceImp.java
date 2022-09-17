@@ -3,13 +3,16 @@ package edu.miu.service.imp;
 
 
 import edu.miu.dto.UserDto;
+import edu.miu.entity.Role;
 import edu.miu.entity.User;
 import edu.miu.repo.UserRepo;
 import edu.miu.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +63,11 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void save(UserDto userDto) {
+        // some random hasing funciton
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
+        String password = passwordEncoder.encode(userDto.getPassword());
+        userDto.setPassword(password);
+
         User user =  userRepo.save(mapUserDtoToUser(userDto));
          mapUserToUserDto(user);
     }
@@ -80,5 +88,15 @@ public class UserServiceImp implements UserService {
          * After getting the object, calling the setter would automatically update the entity
          */
        save(userDto);
+    }
+
+    @Override
+    public void saveRole(User user, Role role) {
+        UserDto userDto = findUserById(user.getId());
+        User user1 =  modelMapper.map(userDto, User.class);
+        List<Role> roles =  new ArrayList<>();
+        roles.add(role);
+        user1.setRoles(roles);
+
     }
 }
